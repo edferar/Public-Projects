@@ -1,0 +1,65 @@
+version: '3'
+services:
+    nginx:
+        build:
+            dockerfile: ./nginx/nginx.dockerfile
+            context: .
+        image: nginx
+        container_name: nginx
+        ports:
+            - "80:80"
+        networks: 
+            - first-docker
+        depends_on: 
+            - "appForm1"
+            - "appForm2"
+
+    mongoDb:
+        image: mongo
+        container_name: mongoDb
+        networks: 
+            - first-docker
+        ports:
+            - "27017:27017"
+        depends_on: 
+            - "nginx"
+            - "appForm1"
+
+
+    appForm1:
+        build:
+            dockerfile: ./front/node.dockerfile
+            context: .
+        image: edferar/form_front
+        container_name: appForm1
+        ports:
+            - "3000"
+        networks: 
+            - first-docker
+
+    appForm2:
+        build:
+            dockerfile: ./front/node.dockerfile
+            context: .
+        image: edferar/form_front
+        container_name: appForm2
+        ports:
+            - "3000"
+        networks: 
+            - first-docker
+
+    apiForm:
+        build:
+            dockerfile: ./python/python.dockerfile
+            context: .
+        image: edferar/api_avc
+        container_name: apiForm
+        ports:
+            - "5000:5000"
+        networks: 
+            - first-docker
+        
+
+networks: 
+    first-docker:
+        driver: bridge

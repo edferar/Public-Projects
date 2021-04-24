@@ -1,0 +1,26 @@
+
+sudo docker run -it --name  appForm1 -p 3000:3000 --network hello_docker -v "/home/edney/Git/my_form:/var/www" edney/node_front
+
+apt-get update &&
+apt-get install nodejs && apt-get install npm
+
+
+docker run -it -v "C:\Users\Alura\Desktop:/var/www" ubuntu
+root@abd0286c0083:/#
+
+
+run npm install react-bootstrap bootstrap
+run npm install axios
+
+
+docker run -it --name  appForm1 -p 3000:3000 --network hello_docker  edney/form_front:latest
+
+docker run -it --name  appForm2 -p 3000:3000 --network hello_docker  edney/form_front:latest
+
+docker run -it --name  apiForm -p 5000:5000 --network hello_docker  edney/api_avc:latest
+api_avc:latest
+
+
+
+
+
