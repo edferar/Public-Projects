@@ -1,4 +1,5 @@
 variable "aws_region" {
-  default = "ds-east-1"
+  default = "us-east-1"
 
 }
+
