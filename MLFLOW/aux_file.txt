@@ -1,0 +1,9 @@
+#mlflow server --host 127.0.0.1 --port 8080
+#mlflow server --host 127.0.0.1 --port 8080 --backend-store-uri sqlite:///mlflow.db --default-artifatcs-root ./artifacts
+
+#export MLFLOW_TRACKING_URI=http://localhost:5000
+#$ mlflow models serve -m "runs:/15aaa1cd79f044979067aae5bd203a25/model" -p 8081  --no-conda
+#$ mlflow models serve -m "models:House-pott-Price@prd" -p 8081  --no-conda
+
+#docker -m "models:/House Prices/Production" -n "House-pott-Pric"
+#docker run -p 5001:8080 "House-pott-Price"
