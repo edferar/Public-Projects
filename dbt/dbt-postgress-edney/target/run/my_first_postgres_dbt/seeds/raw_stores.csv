@@ -1,0 +1,12 @@
+
+    
+    
+    truncate table "postgres"."public"."raw_stores";
+    -- dbt seed --
+    
+          insert into "postgres"."public"."raw_stores" ("id", "name", "opened_at", "tax_rate") values
+          (%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s),(%s,%s,%s,%s)
+      
+
+;
+  

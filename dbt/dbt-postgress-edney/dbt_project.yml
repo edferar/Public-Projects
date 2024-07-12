@@ -1,0 +1,19 @@
+config-version: 2
+name: my_first_postgres_dbt
+version: 1.0
+
+profile: 'my_first_postgres_dbt'
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+
+require-dbt-version: [">=1.0.0", "<2.0.0"]
+models:
+  my_first_postgres_dbt:
+      materialized: table
+      staging:
+        materialized: view
