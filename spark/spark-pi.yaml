@@ -1,0 +1,72 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: spark-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "configmaps", "secrets"]
+  verbs: ["get", "list", "create", "watch", "delete"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: spark-role-binding
+  namespace: default
+subjects:
+- kind: ServiceAccount
+  name: default    # Service account padrão no namespace default
+  namespace: default
+roleRef:
+  kind: Role
+  name: spark-role  # Nome da Role que você criou acima
+  apiGroup: rbac.authorization.k8s.io
+
+---
+apiVersion: sparkoperator.k8s.io/v1beta2
+kind: SparkApplication
+metadata:
+  name: spark-pi
+  #namespace: default
+spec:
+  type: Python
+  mode: cluster
+  image: "edferar/spark-py:3.3.1"
+  mainApplicationFile: "local:///opt/spark/tests/script_example.py" 
+  # pyFiles:
+  #   -
+  imagePullPolicy: Always
+  mainClass: org.apache.spark.examples.SparkPi
+  sparkVersion: "3.3.1"
+  restartPolicy:
+      type: OnFailure
+      onFailureRetries: 3
+      onFailureRetryInterval: 10
+      onSubmissionFailureRetries: 5
+      onSubmissionFailureRetryInterval: 20
+
+  driver:
+    coreLimit: "1200m"
+    cores: 1
+    labels:
+      version: 3.3.1
+    memory: "512m"
+    serviceAccount: default
+    env:
+      - name: AWS_ACCESS_KEY_ID
+        value: "xWOjNG7eqpjdSQzZ"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "MpX6suRBQ0Kmo3fng583FWmmFK6URnEK"
+  executor:
+    cores: 1
+    instances: 1
+    labels:
+      version: 3.3.1
+    memory: "512m"
+    serviceAccount: default
+    env:
+      - name: AWS_ACCESS_KEY_ID
+        value: "xWOjNG7eqpjdSQzZ"
+      - name: AWS_SECRET_ACCESS_KEY
+        value: "MpX6suRBQ0Kmo3fng583FWmmFK6URnEK"
