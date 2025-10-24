@@ -1,0 +1,14 @@
+[
+  [
+    "eventDate",
+    "TIMESTAMP"
+  ],
+  [
+    "requestId",
+    "VARCHAR"
+  ],
+  [
+    "Data",
+    "ROW"
+  ]
+]

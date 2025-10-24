@@ -1,0 +1,63 @@
+# apiVersion: flink.apache.org/v1beta1
+# kind: FlinkDeployment
+# metadata:
+#   name: python-example
+# spec:
+#   image: edferar/apache_flink_operator:latest
+#   flinkVersion: v1_17
+#   serviceAccount: flink
+#   jobManager:
+#     resource:
+#       memory: "2048m"
+#       cpu: 1
+#   taskManager:
+#     resource:
+#       memory: "2048m"
+#       cpu: 1
+#   flinkConfiguration:
+#     taskmanager.numberOfTaskSlots: "2"
+#     parallelism.default: "2"
+#   job:
+#     jarURI: local:///opt/flink/opt/flink-python_2.12-1.16.3.jar # Note, this jarURI is actually a placeholder
+#     entryClass: "org.apache.flink.client.python.PythonDriver"
+#     args: [ "-pyclientexec", "/usr/local/bin/python3", "-py", "/opt/flink/usrlib/flink_app.py" ]
+#     parallelism: 1
+#     upgradeMode: stateless
+
+apiVersion: flink.apache.org/v1beta1
+kind: FlinkDeployment
+metadata:
+  name: python-example
+spec:
+  image: edferar/apache_flink_operator:latest
+  flinkVersion: v1_17
+  serviceAccount: flink
+  jobManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  taskManager:
+    resource:
+      memory: "2048m"
+      cpu: 1
+  flinkConfiguration:
+    taskmanager.numberOfTaskSlots: "2"
+    parallelism.default: "2"
+  job:
+    jarURI: local:///opt/flink/opt/flink-python_2.12-1.16.3.jar
+    entryClass: "org.apache.flink.client.python.PythonDriver"
+    args: [ "-pyclientexec", "/usr/local/bin/python3", "-py", "/opt/flink/content/scripts/flink_client_app.py" ] #"/opt/flink/usrlib/flink_app.py" ]
+    parallelism: 1
+    upgradeMode: stateless
+  podTemplate:
+    spec:
+      containers:
+      - name: flink-main-container
+        volumeMounts:
+        - name: pyflink-script
+          mountPath: /opt/flink/content
+      volumes:
+      - name: pyflink-script
+        hostPath:
+          path: /run/desktop/mnt/host/c/Projects/code/Public-Projects-main/Public-Projects-main/portfolio/flink/content
+          type: Directory
